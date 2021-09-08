@@ -14,7 +14,7 @@ DATA_PATH = '../datasets/timit'
 TMP_PATH = '/tmp/timit_processing'
 OUTPUT_PATH = '../datasets/timit_processed'
 
-interactive_plot_histogram = True
+interactive_plot_histogram = False
 exclude_sa_files = True
 normalize_over_training_set = True
 
@@ -34,82 +34,83 @@ phn_list = ['h#']
 word_list = [None]
 
 develop_selection = [
-'dr2/mgwt0',
-'dr2/mpdf0',
-'dr2/mjar0',
-'dr2/mmdm2',
-'dr2/mmdb1',
-'dr4/fgjd0',
-'dr4/fjmg0',
-'dr4/fadg0',
-'dr4/fnmr0',
-'dr4/frew0',
-'dr4/mteb0',
-'dr4/fedw0',
-'dr4/mdls0',
-'dr4/fsem0',
-'dr4/fdms0',
-'dr4/mroa0',
-'dr4/mbns0',
-'dr5/fcal1',
-'dr5/fmah0',
-'dr5/mrws1',
-'dr8/fjsj0',
-'dr8/majc0',
-'dr6/fdrw0',
-'dr6/mjfc0',
-'dr6/mrjr0',
-'dr7/mdlf0',
-'dr7/mers0',
-'dr7/fmml0',
-'dr7/mrcs0',
-'dr7/mrjm4',
-'dr7/mdvc0',
-'dr1/faks0',
-'dr1/fdac1',
-'dr1/mjsw0',
-'dr1/mreb0',
-'dr1/fjem0',
-'dr3/mmwh0',
-'dr3/mglb0',
-'dr3/fkms0',
-'dr3/mgjf0',
-'dr3/mtdt0',
-'dr3/mrtk0',
-'dr3/mtaa0',
-'dr3/mcsh0',
-'dr3/mmjr0',
-'dr3/mwjg0',
-'dr3/mbdg0',
-'dr3/fcmh0',
-'dr3/mbwm0',
-'dr3/mthc0',]
+'dr2/MGWT0',
+'dr2/MPDF0',
+'dr2/MJAR0',
+'dr2/MMDM2',
+'dr2/MMDB1',
+'dr4/FGJD0',
+'dr4/FJMG0',
+'dr4/FADG0',
+'dr4/FNMR0',
+'dr4/FREW0',
+'dr4/MTEB0',
+'dr4/FEDW0',
+'dr4/MDLS0',
+'dr4/FSEM0',
+'dr4/FDMS0',
+'dr4/MROA0',
+'dr4/MBNS0',
+'dr5/FCAL1',
+'dr5/FMAH0',
+'dr5/MRWS1',
+'dr8/FJSJ0',
+'dr8/MAJC0',
+'dr6/FDRW0',
+'dr6/MJFC0',
+'dr6/MRJR0',
+'dr7/MDLF0',
+'dr7/MERS0',
+'dr7/FMML0',
+'dr7/MRCS0',
+'dr7/MRJM4',
+'dr7/MDVC0',
+'dr1/FAKS0',
+'dr1/FDAC1',
+'dr1/MJSW0',
+'dr1/MREB0',
+'dr1/FJEM0',
+'dr3/MMWH0',
+'dr3/MGLB0',
+'dr3/FKMS0',
+'dr3/MGJF0',
+'dr3/MTDT0',
+'dr3/MRTK0',
+'dr3/MTAA0',
+'dr3/MCSH0',
+'dr3/MMJR0',
+'dr3/MWJG0',
+'dr3/MBDG0',
+'dr3/FCMH0',
+'dr3/MBWM0',
+'dr3/MTHC0',
+]
 
 core_test_selection = [
-'dr2/fpas0',
-'dr2/mtas1',
-'dr2/mwew0',
-'dr4/mtls0',
-'dr4/mlll0',
-'dr4/fjlm0',
-'dr5/fnlp0',
-'dr5/mbpm0',
-'dr5/mklt0',
-'dr8/fmld0',
-'dr8/mpam0',
-'dr8/mjln0',
-'dr6/mcmj0',
-'dr6/fmgd0',
-'dr6/mjdh0',
-'dr7/fdhc0',
-'dr7/mnjm0',
-'dr7/mgrt0',
-'dr1/mdab0',
-'dr1/felc0',
-'dr1/mwbt0',
-'dr3/fpkt0',
-'dr3/mjmp0',
-'dr3/mlnt0',
+'dr2/FPAS0',
+'dr2/MTAS1',
+'dr2/MWEW0',
+'dr4/MTLS0',
+'dr4/MLLL0',
+'dr4/FJLM0',
+'dr5/FNLP0',
+'dr5/MBPM0',
+'dr5/MKLT0',
+'dr8/FMLD0',
+'dr8/MPAM0',
+'dr8/MJLN0',
+'dr6/MCMJ0',
+'dr6/FMGD0',
+'dr6/MJDH0',
+'dr7/FDHC0',
+'dr7/MNJM0',
+'dr7/MGRT0',
+'dr1/MDAB0',
+'dr1/FELC0',
+'dr1/MWBT0',
+'dr3/FPKT0',
+'dr3/MJMP0',
+'dr3/MLNT0',
 ]
 
 phonem_reduction_table = {
@@ -184,12 +185,12 @@ def get_file_name_tuple_from_speaker_path(speaker_path):
     for f in file_names:
 
         trunc = f[:-4]
-        if f[-4:] == '.wav':
+        if f[-4:] == '.WAV':
             if not(exclude_sa_files) or f[:2] != 'sa':
-                wav_file = trunc + '.wav'
-                phn_file = trunc + '.phn'
-                wrd_file = trunc + '.wrd'
-                txt_file = trunc + '.txt'
+                wav_file = trunc + '.WAV.wav'
+                phn_file = trunc + '.PHN'
+                wrd_file = trunc + '.WRD'
+                txt_file = trunc + '.TXT'
                 files.append((wav_file,phn_file,wrd_file,txt_file))
     return files
 
@@ -238,7 +239,7 @@ def process_phn_or_word(path, phn_or_word_file, meta_data, reduce_phonem):
     vector = np.zeros(meta_data['num_windows'],dtype=int)
 
     path = os.path.join(path, phn_or_word_file)
-    is_phn = True if path[-4:] == '.phn' else False
+    is_phn = True if path[-4:] == '.PHN' else False
 
     # The list of phones are frozen after the pass on the training set
     freeze_ids = meta_data['dataset_source'] in ['test','develop'] and is_phn
@@ -314,7 +315,6 @@ if __name__ == '__main__':
                 if speaker_reference in develop_selection and dataset_target == 'develop': use_speaker=True
                 if speaker_reference in core_test_selection and dataset_target == 'test': use_speaker=True
 
-
                 if use_speaker:
                     selected_speaker_path_list.append(speaker)
 
@@ -324,6 +324,9 @@ if __name__ == '__main__':
 
                 for wav_file,phn_file,wrd_file,txt_file in get_file_name_tuple_from_speaker_path(speaker_path):
                     dialect_file_count += 1
+
+                    #Processing of the sample audio starts
+
                     # Process txt file
                     sample_start, sample_end, text = process_txt(speaker_path, txt_file)
 
@@ -366,6 +369,8 @@ if __name__ == '__main__':
                     phn_stack.append(phns)
                     reduced_phn_stack.append(reduced_phns)
                     word_stack.append(words)
+
+                    #Processing of the sample audio ends
 
             print('Dialect {}: {} speakers - {} audio/label file pairs'.format(dr,len(selected_speaker_path_list),dialect_file_count))
             dataset_file_count += dialect_file_count
