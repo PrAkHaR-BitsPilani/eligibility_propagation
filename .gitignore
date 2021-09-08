@@ -98,3 +98,4 @@ ENV/
 
 .gitignore
 .idea/
+Figure_2_TIMIT/sphfile.py
